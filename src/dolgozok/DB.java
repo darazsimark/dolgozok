@@ -26,10 +26,21 @@ public class DB {
     final String pass = "";
     
     public DB() {
+        String s1 = "CREATE DATABASE IF NOT EXISTS dolgozok";
+        String s2 = "USE dolgozok";
+        
         try {
             // kapcsolódás
             kapcs = DriverManager.getConnection(dbUrl, user, pass);
-            System.out.println("A kapcsolat létrejött.");
+            
+            // adatbázis létrehozása
+            ekpar = kapcs.prepareStatement(s1);
+            ekpar.execute();
+            
+            // adatbázis kijelölése
+            ekpar = kapcs.prepareStatement(s2);
+            ekpar.execute();
+            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
