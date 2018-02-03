@@ -42,6 +42,16 @@ public class Dolgozok {
                     bill.nextLine();
                     ab.uj(nev, szulido, fizetes);
                     break;
+                case '3':
+                    System.out.print("Fájlnév: ");
+                    fnev = bill.nextLine();
+                    ab.beolvas(fnev);
+                    break;
+                case '4':
+                    System.out.print("Fájlnév: ");
+                    fnev = bill.nextLine();
+                    ab.kiir(fnev);
+                    break;
                 default:
                     tovabb = false;
             }

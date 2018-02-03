@@ -5,11 +5,16 @@
  */
 package dolgozok;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 /**
  *
@@ -84,6 +89,35 @@ public class DB {
             ekpar.executeUpdate();
             System.out.println(nev + " hozzáadva.");            
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void beolvas(String fnev) {
+            try (Scanner be = new Scanner(new File(fnev))) {
+                while (be.hasNextLine()) {
+                    String[] sor = be.nextLine().split(",");
+                    uj (sor[0],sor[1],Integer.parseInt(sor[2]));
+                }
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+    }
+    
+    public void kiir(String fnev) {
+        try (PrintWriter ki = new PrintWriter(fnev)) {
+            try {
+                ekpar = kapcs.prepareStatement("SELECT * FROM adatok");
+                eredmeny = ekpar.executeQuery();
+                while (eredmeny.next()) {
+                    ki.println(eredmeny.getString("nev") + "," +
+                               eredmeny.getDate("szulido") + "," +
+                               eredmeny.getInt("fizetes"));
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
     }
