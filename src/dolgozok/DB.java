@@ -28,7 +28,14 @@ public class DB {
     public DB() {
         String s1 = "CREATE DATABASE IF NOT EXISTS dolgozok";
         String s2 = "USE dolgozok";
-        
+        String s3 = "CREATE TABLE IF NOT EXISTS adatok (" +
+                    "id int(4) NOT NULL AUTO_INCREMENT," +
+                    "nev varchar(50)," +
+                    "szulido date," +
+                    "fizetes int(7)," +
+                    "PRIMARY KEY(id) " +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" +
+                    " COLLATE=utf8mb4_hungarian_ci;";
         try {
             // kapcsolódás
             kapcs = DriverManager.getConnection(dbUrl, user, pass);
@@ -39,6 +46,10 @@ public class DB {
             
             // adatbázis kijelölése
             ekpar = kapcs.prepareStatement(s2);
+            ekpar.execute();
+            
+            // tábla létrehozása
+            ekpar = kapcs.prepareStatement(s3);
             ekpar.execute();
             
         } catch (SQLException ex) {
